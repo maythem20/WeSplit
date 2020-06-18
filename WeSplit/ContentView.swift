@@ -12,7 +12,9 @@ struct ContentView: View {
     @State private var checkamount = ""
     @State private var numberOfPeople = 2
     @State private var tipPercentage = 0
+    @State private var TotalAmount = 0.0
      let tipPercentages = [10,15,20,25,0]
+    
     
     var totalPerPerson: Double {
     let peopleCount = Double(numberOfPeople + 2)
@@ -22,6 +24,15 @@ struct ContentView: View {
     let amountPerPerson = TotalAmountPlusTip / peopleCount
         
         return amountPerPerson
+    }
+    
+    var TotalAmountIncludeTip: Double {
+        _ = Double(numberOfPeople + 2)
+        let theTipPercentage = Double(tipPercentages[tipPercentage])
+        let TotalAmount = Double(checkamount) ?? 0
+        let TotalAmountPlusTip = TotalAmount * ((theTipPercentage/100) + 1)
+        
+        return TotalAmountPlusTip
     }
         
     var body: some View {
@@ -47,6 +58,10 @@ struct ContentView: View {
                 }
                 Section(header: Text("Amount Per Person Including Tip")) {
                     Text("$\(totalPerPerson, specifier: "%.2f")")
+                }
+                Section(header: Text("Grand Total Amount Including Tip")) {
+                    Text("$\(TotalAmountIncludeTip, specifier:"%.2f")")
+                    
                 }
             }
         .navigationBarTitle("WeSplit")
