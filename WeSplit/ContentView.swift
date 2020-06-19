@@ -10,14 +10,14 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var checkamount = ""
-    @State private var numberOfPeople = 2
+    @State private var numberOfPeople = ""
     @State private var tipPercentage = 0
     @State private var TotalAmount = 0.0
      let tipPercentages = [10,15,20,25,0]
     
     
     var totalPerPerson: Double {
-    let peopleCount = Double(numberOfPeople + 2)
+    let peopleCount = Double(numberOfPeople) ?? 1
     let theTipPercentage = Double(tipPercentages[tipPercentage])
     let TotalAmount = Double(checkamount) ?? 0
     let TotalAmountPlusTip = TotalAmount * ((theTipPercentage/100) + 1)
@@ -27,7 +27,7 @@ struct ContentView: View {
     }
     
     var TotalAmountIncludeTip: Double {
-        _ = Double(numberOfPeople + 2)
+        _ = Double(numberOfPeople) ?? 1
         let theTipPercentage = Double(tipPercentages[tipPercentage])
         let TotalAmount = Double(checkamount) ?? 0
         let TotalAmountPlusTip = TotalAmount * ((theTipPercentage/100) + 1)
@@ -42,12 +42,10 @@ struct ContentView: View {
                     TextField("Enter Total Amount", text: $checkamount)
                         .keyboardType(.decimalPad)
                     
-                    Picker("Number of People", selection: $numberOfPeople) {
-                        ForEach(2..<100) {
-                            Text("\($0) people")
-                        }
+                    TextField("Number of People", text: $numberOfPeople)
+                        .keyboardType(.numberPad)
                     }
-                }
+                
                 Section(header: Text("Tip Percentage")) {
                     Picker("Tip Percentage", selection: $tipPercentage) {
                         ForEach(0..<tipPercentages.count) {
@@ -67,7 +65,7 @@ struct ContentView: View {
         .navigationBarTitle("WeSplit")
         }
     }
- }
+}
 
 
 struct ContentView_Previews: PreviewProvider {
